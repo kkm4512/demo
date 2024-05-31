@@ -2,11 +2,9 @@ package CRUD_PRACTICE.demo.controller;
 
 import CRUD_PRACTICE.demo.constructor.UserInfo;
 import CRUD_PRACTICE.demo.repository.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -14,12 +12,21 @@ public class UserControllerTest {
 
     private UserRepository userRepository;
     private UserController userController;
+    private UserInfo user1;
+    private UserInfo user2;
+    private UserInfo user100;
+    private UserInfo user777;
 
 
     @BeforeEach
     void setup() {
         userRepository = new UserRepository();
         userController = new UserController(userRepository);
+
+//        user1 = userController.create("user1", "user1", "user1", "user1");
+//        user2 = createUser("user2", "user2", "user2", "user2");
+//        user100 = createUser("user100", "user100", "user100", "user100");
+//        user777 = createUser("user777", "user777", "user777", "user777");
     }
 
 
@@ -69,7 +76,7 @@ public class UserControllerTest {
         userController.create(user1);
         userController.create(user2);
         //id를 통해, 해당하는 UserInfo 객체 전부 가져오는데 성공
-        System.out.println(userController.findOneUserList(2L));
+        System.out.println(userController.findOneUserArray(2L));
 
         //then
 
@@ -101,7 +108,7 @@ public class UserControllerTest {
         //when
         userController.create(user1);
         userController.create(user2);
-        userController.update(user2.getId(),user100);
+        userController.updateArray(user2.getId(), user100);
 
         //then
         UserInfo updatedUser = userRepository.getAllUsersList().stream()
@@ -137,9 +144,42 @@ public class UserControllerTest {
 
         //when
         System.out.println(userRepository.getAllUsersList());
-        userController.delete(user2);
+        userController.deleteArray(user2);
         System.out.println(userRepository.getAllUsersList());
 
+
+        //then
+    }
+
+    @Test
+    void updateMap() {
+
+        //given
+        UserInfo user1 = new UserInfo();
+        user1.setName("user1");
+        user1.setPassword("user1");
+        user1.setNickname("user1");
+        user1.setEmail("user1");
+
+        UserInfo user2 = new UserInfo();
+        user2.setName("user2");
+        user2.setPassword("user2");
+        user2.setNickname("user2");
+        user2.setEmail("user2");
+
+        UserInfo user777 = new UserInfo();
+        user777.setName("user777");
+        user777.setPassword("user777");
+        user777.setNickname("user777");
+        user777.setEmail("user777");
+
+        userController.create(user1);
+        userController.create(user2);
+
+        //when
+        System.out.println(userRepository.getAllUsersMap());
+        userController.updateMap(user2.getId(),user777 );
+        System.out.println(userRepository.getAllUsersMap());
 
         //then
     }

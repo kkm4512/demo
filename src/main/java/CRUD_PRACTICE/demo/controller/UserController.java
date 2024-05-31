@@ -24,17 +24,10 @@ public class UserController implements UserControllerInterface {
 
     }
 
-
-    /**
-     * 1. 업데이트할 유저의 id 받음,업데이트할 유저의 정보를 받음
-     * 1-1. findOneUserList 함수를 통해 유저의 id에 해당하는 객체를 전부 꺼내옴
-     * 2.
-     */
-
-    //유저 업데이트
+    //유저 업데이트 Array
     @Override
-    public UserInfo update(Long id, UserInfo updateUser) {
-        int idx = this.findOneUserList(id);
+    public UserInfo updateArray(Long id, UserInfo updateUser) {
+        int idx = this.findOneUserArray(id);
         UserInfo userInfo = userRepository.getAllUsersList().get(idx);
         userInfo.setName(updateUser.getName());
         userInfo.setNickname(updateUser.getNickname());
@@ -44,23 +37,23 @@ public class UserController implements UserControllerInterface {
     }
 
 
-    //유저 지우기
+    //유저 지우기 Array
     @Override
-    public boolean delete(UserInfo userInfo) {
-        int idx = this.findOneUserList(userInfo.getId());
+    public boolean deleteArray(UserInfo userInfo) {
+        int idx = this.findOneUserArray(userInfo.getId());
         UserInfo removed = userRepository.getAllUsersList().remove(idx);
         return removed.getId() > 0;
     }
 
-    //유저들 불러오기 List
+    //유저들 불러오기 Array
     @Override
     public List<UserInfo> readList() {
         return userRepository.getAllUsersList();
     }
 
-    //유저 찾기 List (인덱스 반환)
+    //유저 찾기 Array (인덱스 반환)
     @Override
-    public int findOneUserList(Long id) {
+    public int findOneUserArray(Long id) {
         List<UserInfo> allUsersList = userRepository.getAllUsersList();
         for (int i = 0; i < allUsersList.size(); i++) {
             if (allUsersList.get(i).getId().equals(id)) {
@@ -68,6 +61,24 @@ public class UserController implements UserControllerInterface {
             }
         }
         return -1;
+    }
+
+    //유저 업데이트 Map
+    @Override
+    public UserInfo updateMap(Long id, UserInfo updateUser) {
+        UserInfo userInfo = userRepository.getAllUsersMap().get(id);
+        userInfo.setId(id);
+        userInfo.setName(updateUser.getName());
+        userInfo.setEmail(updateUser.getEmail());
+        userInfo.setNickname(updateUser.getNickname());
+        userInfo.setPassword(updateUser.getPassword());
+        return userInfo;
+    }
+
+    //유저 지우기 Map
+    @Override
+    public boolean deleteMap(UserInfo userInfo) {
+        return false;
     }
 
     //유저들 불러오기 Map

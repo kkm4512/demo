@@ -17,13 +17,14 @@ import java.util.Map;
 public interface UserControllerInterface {
 
     void create(UserInfo userInfo);
-    UserInfo update(Long id, UserInfo userInfo);
-    boolean delete(UserInfo userInfo);
+
+    UserInfo updateArray(Long id, UserInfo userInfo);
+    boolean deleteArray(UserInfo userInfo);
     List<UserInfo> readList();
+    int findOneUserArray(Long id);
 
-    //findOne 메서드들 Optional 부여해주기, return값이 없을 수 도있음
-    int findOneUserList(Long id);
-
+    UserInfo updateMap(Long id, UserInfo userInfo);
+    boolean deleteMap(UserInfo userInfo);
     Map<Long,UserInfo> readMap();
     UserInfo findOneUserMap(Long id);
 

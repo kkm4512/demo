@@ -11,7 +11,7 @@ import java.util.Map;
 public class UserRepository {
 
     public Long sequence = 0L;
-    public List<UserInfo> userInfoList = new ArrayList<>();
+    public List<UserInfo> userInfoArray = new ArrayList<>();
     public Map<Long,UserInfo> userInfoMap = new HashMap<>();
 
     public Long sequenceAdd(){
@@ -19,7 +19,7 @@ public class UserRepository {
     }
 
     public List<UserInfo> getAllUsersList(){
-        return userInfoList;
+        return userInfoArray;
     }
 
     public Map<Long,UserInfo> getAllUsersMap(){
@@ -27,7 +27,7 @@ public class UserRepository {
     }
 
     public void addUserList(UserInfo userInfo){
-        userInfoList.add(userInfo);
+        userInfoArray.add(userInfo);
     }
 
     public void addUserMap (UserInfo userInfo){
