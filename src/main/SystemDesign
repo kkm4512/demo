@@ -1,0 +1,28 @@
+1. 처음에는 로컬 메모리에 담는 형식으로 CRUD,회원가입,회원가입된 목록들을 보여주는 메뉴 구현
+2. 그 이후에 db에 연결하여, 로컬 메모리에 담는 형식에서 db에 담는 형식으로 변경
+3. 여기까지
+
+[ constructor ]
+
+유저의 정보를 받는 값들 및 getter,setter를 설정해준다
+
+[ repository ]
+
+유저의 정보를 저장하는 곳
+
+[ controller ]
+
+유저를 회원가입 시키거나, 간단하게 CRUD만 구현
+
+[ Update ]
+
+1. 사용자로부터 id값을받고, 변경하고자하는 내용을 받기
+2. 사용자의 id가 userInfoList어디에 있는지 찾고
+    2-1. id가 동일한 List의 index를 반환해야할거같은데?
+3. userInfoList에 있는 데이터를 update할 객체로 덮어씌우면될듯?
+
+
+[ service ]
+
+controller에서 구현한 함수들을 조금더 상세하게 구현
+
