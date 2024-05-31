@@ -45,7 +45,6 @@ public class UserController implements UserControllerInterface {
 
 
     //유저 지우기
-    //왜 아이디가 null 이지?
     @Override
     public boolean delete(UserInfo userInfo) {
         int idx = this.findOneUserList(userInfo.getId());

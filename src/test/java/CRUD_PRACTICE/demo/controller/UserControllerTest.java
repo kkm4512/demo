@@ -132,6 +132,9 @@ public class UserControllerTest {
         user2.setNickname("user2");
         user2.setEmail("user2");
 
+        userController.create(user1);
+        userController.create(user2);
+
         //when
         System.out.println(userRepository.getAllUsersList());
         userController.delete(user2);
