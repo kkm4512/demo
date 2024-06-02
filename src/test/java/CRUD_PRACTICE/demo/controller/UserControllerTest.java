@@ -18,11 +18,14 @@ public class UserControllerTest {
     public UserInfo user100;
     public UserInfo user777;
 
+    public UserControllerTest(UserRepository userRepository, UserController userController) {
+        this.userRepository = userRepository;
+        this.userController = userController;
+    }
+
 
     @BeforeEach
     void setup() {
-        userRepository = new UserRepository();
-        userController = new UserController(userRepository);
         user1 = new UserInfo();
         user2 = new UserInfo();
         user777 = new UserInfo();
@@ -148,7 +151,7 @@ public class UserControllerTest {
         userController.create(user2);
 
         //when
-         userController.findOneUserMap(user1.getId());
+        userController.findOneUserMap(user1.getId());
 
         //then
 
