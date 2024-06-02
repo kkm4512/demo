@@ -3,12 +3,20 @@ package CRUD_PRACTICE.demo.controller;
 import CRUD_PRACTICE.demo.constructor.UserInfo;
 import CRUD_PRACTICE.demo.repository.UserRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class UserController implements UserControllerInterface {
 
     private final UserRepository userRepository;
+    public boolean userCheck(UserInfo user){
+        if (user.getName() == null || user.getPassword() == null || user.getNickname() == null || user.getEmail() == null) {
+            throw new IllegalArgumentException("유저의 정보는 공백 일 수 없습니다.");
+        }
+        return true;
+    }
 
 
     public UserController(UserRepository userRepository) {
@@ -18,6 +26,8 @@ public class UserController implements UserControllerInterface {
     //유저 생성
     @Override
     public void create(UserInfo user) {
+
+        userCheck(user);
         user.setId(userRepository.sequenceAdd());
         userRepository.addUserList(user);
         userRepository.addUserMap(user);
@@ -39,8 +49,8 @@ public class UserController implements UserControllerInterface {
 
     //유저 지우기 Array
     @Override
-    public boolean deleteArray(UserInfo userInfo) {
-        int idx = this.findOneUserArray(userInfo.getId());
+    public boolean deleteArray(Long id) {
+        int idx = this.findOneUserArray(id);
         UserInfo removed = userRepository.getAllUsersList().remove(idx);
         return removed.getId() > 0;
     }
@@ -77,8 +87,10 @@ public class UserController implements UserControllerInterface {
 
     //유저 지우기 Map
     @Override
-    public boolean deleteMap(UserInfo userInfo) {
-        return false;
+    public boolean deleteMap(Long id) {
+        Map<Long, UserInfo> allUsersMap = userRepository.getAllUsersMap();
+        allUsersMap.remove(id);
+        return true;
     }
 
     //유저들 불러오기 Map
@@ -90,7 +102,7 @@ public class UserController implements UserControllerInterface {
     //유저 찾기 Map
     @Override
     public UserInfo findOneUserMap(Long id) {
-        return null;
+        return userRepository.getAllUsersMap().get(id);
     }
 
 

@@ -20,7 +20,7 @@ public interface UserControllerInterface {
 
     UserInfo updateArray(Long id, UserInfo userInfo);
 
-    boolean deleteArray(UserInfo userInfo);
+    boolean deleteArray(Long id);
 
     List<UserInfo> readList();
 
@@ -28,7 +28,7 @@ public interface UserControllerInterface {
 
     UserInfo updateMap(Long id, UserInfo userInfo);
 
-    boolean deleteMap(UserInfo userInfo);
+    boolean deleteMap(Long id);
 
     Map<Long, UserInfo> readMap();
 

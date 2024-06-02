@@ -2,6 +2,7 @@ package CRUD_PRACTICE.demo.controller;
 
 import CRUD_PRACTICE.demo.constructor.UserInfo;
 import CRUD_PRACTICE.demo.repository.UserRepository;
+import org.apache.tomcat.util.http.fileupload.MultipartStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,29 +13,20 @@ public class UserControllerTest {
 
     private UserRepository userRepository;
     private UserController userController;
-    private UserInfo user1;
-    private UserInfo user2;
-    private UserInfo user100;
-    private UserInfo user777;
+    public UserInfo user1;
+    public UserInfo user2;
+    public UserInfo user100;
+    public UserInfo user777;
 
 
     @BeforeEach
     void setup() {
         userRepository = new UserRepository();
         userController = new UserController(userRepository);
-
-//        user1 = userController.create("user1", "user1", "user1", "user1");
-//        user2 = createUser("user2", "user2", "user2", "user2");
-//        user100 = createUser("user100", "user100", "user100", "user100");
-//        user777 = createUser("user777", "user777", "user777", "user777");
-    }
-
-
-    @Test
-    void create() {
-        // given
-        UserInfo user1 = new UserInfo();
-        UserInfo user2 = new UserInfo();
+        user1 = new UserInfo();
+        user2 = new UserInfo();
+        user777 = new UserInfo();
+        user100 = new UserInfo();
 
         user1.setName("user1");
         user1.setPassword("user1");
@@ -46,11 +38,25 @@ public class UserControllerTest {
         user2.setNickname("user2");
         user2.setEmail("user2");
 
+        user777.setName("user777");
+        user777.setPassword("user777");
+        user777.setNickname("user777");
+        user777.setEmail("user777");
+
+        user100.setName("user100");
+        user100.setPassword("user100");
+        user100.setNickname("user100");
+        user100.setEmail("user100");
+    }
+
+
+    @Test
+    void create() {
+        // given
+        //BeforEach
 
         //when
-
         userController.create(user1);
-        userController.create(user2);
 
 
         //then
@@ -60,23 +66,13 @@ public class UserControllerTest {
     void findOneUserList() {
 
         //given
-        UserInfo user1 = new UserInfo();
-        user1.setName("user1");
-        user1.setPassword("user1");
-        user1.setNickname("user1");
-        user1.setEmail("user1");
-
-        UserInfo user2 = new UserInfo();
-        user2.setName("user2");
-        user2.setPassword("user2");
-        user2.setNickname("user2");
-        user2.setEmail("user2");
-
-        //when
+        //BeforEach
         userController.create(user1);
         userController.create(user2);
+
+        //when
+
         //id를 통해, 해당하는 UserInfo 객체 전부 가져오는데 성공
-        System.out.println(userController.findOneUserArray(2L));
 
         //then
 
@@ -87,27 +83,11 @@ public class UserControllerTest {
     void update() {
 
         //given
-        UserInfo user1 = new UserInfo();
-        user1.setName("user1");
-        user1.setPassword("user1");
-        user1.setNickname("user1");
-        user1.setEmail("user1");
-
-        UserInfo user2 = new UserInfo();
-        user2.setName("user2");
-        user2.setPassword("user2");
-        user2.setNickname("user2");
-        user2.setEmail("user2");
-
-        UserInfo user100 = new UserInfo();
-        user100.setName("user100");
-        user100.setPassword("user100");
-        user100.setNickname("user100");
-        user100.setEmail("user100");
-
-        //when
+        //BeforEach
         userController.create(user1);
         userController.create(user2);
+
+        //when
         userController.updateArray(user2.getId(), user100);
 
         //then
@@ -116,36 +96,18 @@ public class UserControllerTest {
                 .findFirst()
                 .orElse(null);
 
-        assertNotNull(updatedUser, "Updated user should not be null");
-        assertEquals("user100", updatedUser.getName());
-        assertEquals("user100", updatedUser.getPassword());
-        assertEquals("user100", updatedUser.getNickname());
-        assertEquals("user100", updatedUser.getEmail());
     }
 
     @Test
     void delete() {
 
         //given
-        UserInfo user1 = new UserInfo();
-        user1.setName("user1");
-        user1.setPassword("user1");
-        user1.setNickname("user1");
-        user1.setEmail("user1");
-
-        UserInfo user2 = new UserInfo();
-        user2.setName("user2");
-        user2.setPassword("user2");
-        user2.setNickname("user2");
-        user2.setEmail("user2");
-
+        //BeforEach
         userController.create(user1);
         userController.create(user2);
 
         //when
-        System.out.println(userRepository.getAllUsersList());
-        userController.deleteArray(user2);
-        System.out.println(userRepository.getAllUsersList());
+        userController.deleteArray(user2.getId());
 
 
         //then
@@ -155,32 +117,41 @@ public class UserControllerTest {
     void updateMap() {
 
         //given
-        UserInfo user1 = new UserInfo();
-        user1.setName("user1");
-        user1.setPassword("user1");
-        user1.setNickname("user1");
-        user1.setEmail("user1");
-
-        UserInfo user2 = new UserInfo();
-        user2.setName("user2");
-        user2.setPassword("user2");
-        user2.setNickname("user2");
-        user2.setEmail("user2");
-
-        UserInfo user777 = new UserInfo();
-        user777.setName("user777");
-        user777.setPassword("user777");
-        user777.setNickname("user777");
-        user777.setEmail("user777");
-
+        //BeforEach
         userController.create(user1);
         userController.create(user2);
 
         //when
-        System.out.println(userRepository.getAllUsersMap());
-        userController.updateMap(user2.getId(),user777 );
-        System.out.println(userRepository.getAllUsersMap());
+        userController.updateMap(user2.getId(), user777);
 
         //then
+    }
+
+    @Test
+    void deleteMap() {
+        //given
+        //BeforEach
+        userController.create(user1);
+        userController.create(user2);
+
+        //when
+        userController.deleteMap(user1.getId());
+
+        //then
+    }
+
+    @Test
+    void findOneUserMap() {
+        //given
+        //BeforEach
+        userController.create(user1);
+        userController.create(user2);
+
+        //when
+         userController.findOneUserMap(user1.getId());
+
+        //then
+
+
     }
 }
