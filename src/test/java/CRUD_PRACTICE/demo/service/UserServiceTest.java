@@ -76,8 +76,10 @@ class UserServiceTest {
     void deleteUserByIdArray() {
 
         // given
+        userService.registerUser(user1);
 
         // when
+        userService.deleteUserByIdArray(user1.getId());
 
         // then
 
@@ -89,6 +91,7 @@ class UserServiceTest {
         // given
 
         // when
+        userService.getAllUsersArray();
 
         // then
 
@@ -98,8 +101,10 @@ class UserServiceTest {
     void findByIdArray() {
 
         // given
+        userService.registerUser(user1);
 
         // when
+        userService.findByIdArray(user1.getId());
 
         // then
 
@@ -109,9 +114,15 @@ class UserServiceTest {
     void updateUserMap() {
 
         // given
+        userService.registerUser(user1);
+        UserInfo user1212 = new UserInfo();
+        user1212.setName("user1212");
+        user1212.setPassword("user1212");
+        user1212.setNickname("user1212");
+        user1212.setEmail("user1212");
 
         // when
-
+        userService.updateUserMap(user1.getId(),user1212);
         // then
 
     }
@@ -120,8 +131,10 @@ class UserServiceTest {
     void deleteUserByIdMap() {
 
         // given
+        userService.registerUser(user1);
 
         // when
+        userService.deleteUserByIdMap(user1.getId());
 
         // then
 
@@ -133,6 +146,7 @@ class UserServiceTest {
         // given
 
         // when
+        userService.getAllUsersMap();
 
         // then
 
@@ -142,8 +156,10 @@ class UserServiceTest {
     void findByIdMap() {
 
         // given
+        userService.registerUser(user1);
 
         // when
+        userService.findByIdMap(user1.getId());
 
         // then
 
