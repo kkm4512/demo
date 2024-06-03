@@ -2,22 +2,26 @@ package CRUD_PRACTICE.demo.controller;
 
 import CRUD_PRACTICE.demo.constructor.UserInfo;
 import CRUD_PRACTICE.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Map;
 
+@Controller
 public class UserController implements UserControllerInterface {
 
     private final UserRepository userRepository;
 
-    public void userUpdateArray(UserInfo updateUser,UserInfo userInfo){
+    @Autowired
+    public void userUpdateArray(UserInfo updateUser, UserInfo userInfo) {
         userInfo.setName(updateUser.getName());
         userInfo.setNickname(updateUser.getNickname());
         userInfo.setPassword(updateUser.getPassword());
         userInfo.setEmail(updateUser.getEmail());
     }
 
-    public UserInfo userUpdateMap(Long id,UserInfo updateUser){
+    public UserInfo userUpdateMap(Long id, UserInfo updateUser) {
         UserInfo userInfo = userRepository.getAllUsersMap().get(id);
         userInfo.setId(id);
         userInfo.setName(updateUser.getName());
@@ -46,7 +50,7 @@ public class UserController implements UserControllerInterface {
     public UserInfo updateArray(Long id, UserInfo updateUser) {
         int idx = this.findOneUserArray(id);
         UserInfo userInfo = userRepository.getAllUsersList().get(idx);
-        userUpdateArray(updateUser,userInfo);
+        userUpdateArray(updateUser, userInfo);
 
         return userInfo;
     }
@@ -81,7 +85,7 @@ public class UserController implements UserControllerInterface {
     //유저 업데이트 Map
     @Override
     public UserInfo updateMap(Long id, UserInfo updateUser) {
-        return userUpdateMap(id,updateUser);
+        return userUpdateMap(id, updateUser);
     }
 
     //유저 지우기 Map
