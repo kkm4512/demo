@@ -100,7 +100,7 @@ public class UserService {
         userController.deleteMap(id);
     }
 
-    public Map<Long,UserInfo> getAllUsersMap() {
+    public Map<Long, UserInfo> getAllUsersMap() {
         isNullMap();
         return userController.readMap();
     }
