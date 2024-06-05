@@ -1,9 +1,9 @@
 package CRUD_PRACTICE.demo.controller;
 
 import CRUD_PRACTICE.demo.constructor.UserInfo;
+import CRUD_PRACTICE.demo.entity.UserEntity;
+import CRUD_PRACTICE.demo.service.DBUserService;
 import CRUD_PRACTICE.demo.service.UserService;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,14 +14,18 @@ import java.util.Map;
 public class UserControllerMapping {
 
     private final UserService userService;
+    private final DBUserService dbUserService;
 
-    public UserControllerMapping(UserService userService) {
+    public UserControllerMapping(UserService userService, DBUserService dbUserService) {
         this.userService = userService;
+        this.dbUserService = dbUserService;
     }
 
     @PostMapping("/signUp")
-    public boolean signUp(@RequestBody UserInfo user) {
-        return userService.registerUser(user);
+    public boolean signUp(@RequestBody UserEntity user) {
+        boolean b = dbUserService.create(user);
+        System.out.println(b);
+        return true;
     }
 
     @GetMapping("getAllUsersArray")

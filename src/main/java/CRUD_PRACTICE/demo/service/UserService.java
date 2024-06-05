@@ -2,6 +2,7 @@ package CRUD_PRACTICE.demo.service;
 
 import CRUD_PRACTICE.demo.constructor.UserInfo;
 import CRUD_PRACTICE.demo.controller.UserController;
+import CRUD_PRACTICE.demo.repository.DBUserRepository;
 import CRUD_PRACTICE.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserController userController;
+    private final DBUserRepository dbUserRepository;
 
     @Autowired
-    public UserService(UserController userController, UserRepository userRepository) {
+    public UserService(UserController userController, UserRepository userRepository, DBUserRepository dbUserRepository) {
         this.userController = userController;
         this.userRepository = userRepository;
+        this.dbUserRepository = dbUserRepository;
     }
 
     public static class NoUsersFoundException extends RuntimeException {

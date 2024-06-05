@@ -16,13 +16,13 @@ public class UserEntity {
     @Column(unique = true)
     private String name;
 
-    @Column(unique = true)
+    @Column
     private String email;
 
-    @Column(unique = true)
+    @Column
     private String password;
 
-    @Column(unique = true)
+    @Column
     private String nickname;
 
 }
