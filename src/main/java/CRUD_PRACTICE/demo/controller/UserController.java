@@ -48,7 +48,7 @@ public class UserController implements UserControllerInterface {
     //유저 업데이트 Array
     @Override
     public UserInfo updateArray(Long id, UserInfo updateUser) {
-        int idx = this.findOneUserArray(id);
+        int idx = this.findOneUserIndexArray(id);
         UserInfo userInfo = userRepository.getAllUsersList().get(idx);
         userUpdateArray(updateUser, userInfo);
 
@@ -59,7 +59,7 @@ public class UserController implements UserControllerInterface {
     //유저 지우기 Array
     @Override
     public boolean deleteArray(Long id) {
-        int idx = this.findOneUserArray(id);
+        int idx = this.findOneUserIndexArray(id);
         UserInfo removed = userRepository.getAllUsersList().remove(idx);
         return removed.getId() > 0;
     }
@@ -70,9 +70,9 @@ public class UserController implements UserControllerInterface {
         return userRepository.getAllUsersList();
     }
 
-    //유저 찾기 Array (인덱스 반환)
+    //유저 인덱스 찾기 Array
     @Override
-    public int findOneUserArray(Long id) {
+    public int findOneUserIndexArray(Long id) {
         List<UserInfo> allUsersList = userRepository.getAllUsersList();
         for (int i = 0; i < allUsersList.size(); i++) {
             if (allUsersList.get(i).getId().equals(id)) {
@@ -81,6 +81,16 @@ public class UserController implements UserControllerInterface {
         }
         return -1;
     }
+
+    //유저 찾기
+    @Override
+    public UserInfo findOneUserArray(Long id) {
+        List<UserInfo> list = userRepository.getAllUsersList();
+        UserInfo userInfo = list.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
+        return userInfo;
+    }
+
+    //유저 찾기
 
     //유저 업데이트 Map
     @Override

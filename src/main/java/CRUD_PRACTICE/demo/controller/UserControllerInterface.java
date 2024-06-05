@@ -24,7 +24,9 @@ public interface UserControllerInterface {
 
     List<UserInfo> readList();
 
-    int findOneUserArray(Long id);
+    int findOneUserIndexArray(Long id);
+
+    UserInfo findOneUserArray(Long id);
 
     UserInfo updateMap(Long id, UserInfo userInfo);
 

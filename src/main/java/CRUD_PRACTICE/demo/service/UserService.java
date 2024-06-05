@@ -37,7 +37,7 @@ public class UserService {
     }
 
     public void idCheckArray(Long id) {
-        int findUserId = userController.findOneUserArray(id);
+        int findUserId = userController.findOneUserIndexArray(id);
         if (findUserId == -1) throw new IllegalArgumentException("해당 아이디가 존재 하지 않습니다. Array");
     }
 
@@ -65,19 +65,22 @@ public class UserService {
     }
 
 
-    public void registerUser(UserInfo user) {
+    public boolean registerUser(UserInfo user) {
         userCheck(user);
         userController.create(user);
+        return true;
     }
 
-    public void updateUserArray(Long id, UserInfo updateUser) {
+    public boolean updateUserArray(Long id, UserInfo updateUser) {
         userCheck(updateUser);
         userController.updateArray(id, updateUser);
+        return true;
     }
 
-    public void deleteUserByIdArray(Long id) {
+    public boolean deleteUserByIdArray(Long id) {
         idCheckArray(id);
         userController.deleteArray(id);
+        return true;
     }
 
     public List<UserInfo> getAllUsersArray() {
@@ -85,19 +88,22 @@ public class UserService {
         return userController.readList();
     }
 
-    public int findByIdArray(Long id) {
+    public UserInfo findByIdArray(Long id) {
         idCheckArray(id);
         return userController.findOneUserArray(id);
     }
 
-    public void updateUserMap(Long id, UserInfo updateUser) {
+
+    public boolean updateUserMap(Long id, UserInfo updateUser) {
         idCheckMap(id);
         userController.userUpdateMap(id, updateUser);
+        return true;
     }
 
-    public void deleteUserByIdMap(Long id) {
+    public boolean deleteUserByIdMap(Long id) {
         idCheckMap(id);
         userController.deleteMap(id);
+        return true;
     }
 
     public Map<Long, UserInfo> getAllUsersMap() {
