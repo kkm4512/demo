@@ -1,23 +1,31 @@
 package CRUD_PRACTICE.demo.service;
 
-import CRUD_PRACTICE.demo.constructor.UserInfo;
 import CRUD_PRACTICE.demo.entity.UserEntity;
+import CRUD_PRACTICE.demo.exceptionError.DuplicateUserException;
+import CRUD_PRACTICE.demo.exceptionError.UserNotFoundException;
 import CRUD_PRACTICE.demo.repository.DBUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class DBUserService implements DBUserServiceInterface{
     private final DBUserRepository dbUserRepository;
 
-    public static class DuplicateUserException extends RuntimeException {
-        public DuplicateUserException(String msg) {
-            super(msg);
-        }
+
+    //유저 정보 보내주기
+    public UserEntity sendUserInfo(Long id){
+        return dbUserRepository.findById(id).orElseThrow();
+    }
+
+    //존재하는지 확인 ID
+    public void idCheck(Long id){
+        dbUserRepository.findById(id).orElseThrow( () -> new UserNotFoundException("사용자가 존재하지 않습니다.") );
     }
 
     //공백인지 확인
@@ -27,69 +35,134 @@ public class DBUserService implements DBUserServiceInterface{
         }
     }
 
-//    public void userDuplicateCheck(UserEntity user){
-//        if (dbUserRepository.findByEmail(user.getEmail()).isPresent()) {
-//            throw new DuplicateUserException("이메일이 중복됩니다.");
-//        }
-//        if (dbUserRepository.findByNickname(user.getNickname()).isPresent()) {
-//            throw new DuplicateUserException("닉네임이 중복됩니다.");
-//        }
-//        if (dbUserRepository.findByName(user.getName()).isPresent()) {
-//            throw new DuplicateUserException("이름이 중복됩니다.");
-//        }
-//    }
+    //중복체크
+    public void userDuplicateCheck(UserEntity user){
+        if (dbUserRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new DuplicateUserException("이메일이 중복됩니다.");
+        }
+        if (dbUserRepository.findByNickname(user.getNickname()).isPresent()) {
+            throw new DuplicateUserException("닉네임이 중복됩니다.");
+        }
+        if (dbUserRepository.findByName(user.getName()).isPresent()) {
+            throw new DuplicateUserException("이름이 중복됩니다.");
+        }
+    }
 
 
+    /**
+     * 회원가입
+     */
     @Override
     public boolean create(UserEntity user) {
         userCheck(user);
-//        userDuplicateCheck(user);
+        userDuplicateCheck(user);
         dbUserRepository.save(user);
         return true;
     }
 
+    /**
+     * 업데이트 Array
+     */
     @Override
-    public UserEntity updateArray(Long id, UserEntity user) {
-        return null;
+    public boolean updateArray(Long id, UserEntity newUser) {
+        idCheck(id);
+        UserEntity oldUser = sendUserInfo(id);
+        updateArrayFunction(oldUser, newUser);
+        return true;
     }
 
+    /**
+     * 삭제 Array
+     */
     @Override
     public boolean deleteArray(Long id) {
-        return false;
+        idCheck(id);
+        UserEntity findUser = sendUserInfo(id);
+        dbUserRepository.delete(findUser);
+        return true;
     }
 
-    @Override
+    /***
+     * 모든회원조회 Array
+     */
+   @Override
     public List<UserEntity> readList() {
-        return List.of();
+        return dbUserRepository.findAll();
     }
 
+    //인덱스 반환용
     @Override
     public int findOneUserIndexArray(Long id) {
         return 0;
     }
 
+    /***
+     * 단일회원조회 Array
+     */
     @Override
     public UserEntity findOneUserArray(Long id) {
-        return null;
+        idCheck(id);
+        return sendUserInfo(id);
     }
 
+    /***
+     * 업데이트 Map
+     */
     @Override
-    public UserEntity updateMap(Long id, UserEntity user) {
-        return null;
+    public boolean updateMap(Long id, UserEntity newUser) {
+        idCheck(id);
+        UserEntity oldUser = sendUserInfo(id);
+        updateMapFunction(oldUser,newUser);
+        return true;
     }
 
+    /***
+     * 삭제 Map
+     */
     @Override
     public boolean deleteMap(Long id) {
-        return false;
+        idCheck(id);
+        UserEntity findUser = sendUserInfo(id);
+        dbUserRepository.delete(findUser);
+        return true;
     }
 
+    /***
+     * 모든회원조회 Map
+     */
     @Override
-    public Map<Long, UserEntity> readMap() {
-        return Map.of();
+    public List<UserEntity> readMap() {
+        return dbUserRepository.findAll();
     }
 
+    /***
+     * 단일회원조회 Map
+     */
     @Override
     public UserEntity findOneUserMap(Long id) {
-        return null;
+        idCheck(id);
+        return sendUserInfo(id);
     }
+
+    /***
+     * updateArrayFunction
+     */
+
+    private boolean updateArrayFunction(UserEntity oldUser,UserEntity newUser){
+        oldUser.setName(newUser.getName());
+        oldUser.setNickname(newUser.getNickname());
+        oldUser.setPassword(newUser.getPassword());
+        oldUser.setEmail(newUser.getEmail());
+        return true;
+    }
+
+    private boolean updateMapFunction(UserEntity oldUser, UserEntity newUser){
+        oldUser.setName(newUser.getName());
+        oldUser.setNickname(newUser.getNickname());
+        oldUser.setPassword(newUser.getPassword());
+        oldUser.setEmail(newUser.getEmail());
+        return true;
+    }
+
+
 }

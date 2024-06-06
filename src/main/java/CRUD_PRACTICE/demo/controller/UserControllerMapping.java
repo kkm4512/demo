@@ -4,68 +4,71 @@ import CRUD_PRACTICE.demo.constructor.UserInfo;
 import CRUD_PRACTICE.demo.entity.UserEntity;
 import CRUD_PRACTICE.demo.service.DBUserService;
 import CRUD_PRACTICE.demo.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class UserControllerMapping {
 
     private final UserService userService;
     private final DBUserService dbUserService;
 
-    public UserControllerMapping(UserService userService, DBUserService dbUserService) {
-        this.userService = userService;
-        this.dbUserService = dbUserService;
-    }
-
+    //회원가입
     @PostMapping("/signUp")
     public boolean signUp(@RequestBody UserEntity user) {
-        boolean b = dbUserService.create(user);
-        System.out.println(b);
-        return true;
+        return dbUserService.create(user);
     }
 
+    //전체유저조회 Array
     @GetMapping("getAllUsersArray")
-    public List<UserInfo> getAllUsersArray(){
-        return userService.getAllUsersArray();
+    public List<UserEntity> getAllUsersArray(){
+        return dbUserService.readList();
     }
 
-    @PostMapping("/updateUserArray")
-    public boolean updateUserArray(@RequestBody UserInfo user) {
-        return userService.updateUserArray(user.getId(),user);
+    //유저 업데이트 Array
+    @PutMapping("/updateUserArray")
+    public boolean updateUserArray(@RequestBody UserEntity user) {
+        return dbUserService.updateArray(user.getId(),user);
     }
 
-    @PostMapping("/findSomeUsersArray")
-    public UserInfo findSomeUsersArray(@RequestBody UserInfo user) {
-        return userService.findByIdArray(user.getId());
+    //유저 찾기
+    @GetMapping("/findSomeUsersArray/{id}")
+    public UserEntity findSomeUsersArray(@PathVariable("id") Long id) {
+        return dbUserService.findOneUserArray(id);
     }
 
-    @PostMapping("/deleteSomeUsersArray")
-    public boolean deleteSomeUsersArray(@RequestBody UserInfo user) {
-        return userService.deleteUserByIdArray(user.getId());
+    //유저 삭제
+    @DeleteMapping("/deleteSomeUsersArray")
+    public boolean deleteSomeUsersArray(@RequestBody UserEntity user) {
+        return dbUserService.deleteArray(user.getId());
     }
 
     @GetMapping("/getAllUsersMap")
-    public Map<Long, UserInfo> getAllUsersMap() {
-        return userService.getAllUsersMap();
+    public List<UserEntity> getAllUsersMap() {
+        return dbUserService.readMap();
     }
 
     @PostMapping("/updateUserMap")
-    public boolean updateUserMap(@RequestBody UserInfo user) {
-        return userService.updateUserMap(user.getId(),user);
+    public boolean updateUserMap(@RequestBody UserEntity user) {
+        return dbUserService.updateMap(user.getId(),user);
     }
 
-    @PostMapping("/deleteSomeUsersMap")
-    public boolean deleteSomeUsersMap(@RequestBody UserInfo user) {
-        return userService.deleteUserByIdMap(user.getId());
+    @DeleteMapping("/deleteSomeUsersMap")
+    public boolean deleteSomeUsersMap(@RequestBody UserEntity user) {
+        return dbUserService.deleteMap(user.getId());
     }
 
-    @PostMapping("/findSomeUsersMap")
-    public UserInfo findSomeUsersMap(@RequestBody UserInfo user) {
-        return userService.findByIdMap(user.getId());
+    @GetMapping("/findSomeUsersMap")
+    public UserEntity findSomeUsersMap(@PathVariable("id") Long id) {
+        return dbUserService.findOneUserMap(id);
     }
 
 }

@@ -13,7 +13,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String name;
 
     @Column
@@ -24,5 +24,12 @@ public class UserEntity {
 
     @Column
     private String nickname;
+
+    public void updateUserEntity(UserEntity user){
+        this.name = user.getName();
+        this.nickname = user.getNickname();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+    }
 
 }

@@ -9,7 +9,7 @@ public interface DBUserServiceInterface {
 
     boolean create(UserEntity user);
 
-    UserEntity updateArray(Long id, UserEntity user);
+    boolean updateArray(Long id, UserEntity user);
 
     boolean deleteArray(Long id);
 
@@ -19,11 +19,11 @@ public interface DBUserServiceInterface {
 
     UserEntity findOneUserArray(Long id);
 
-    UserEntity updateMap(Long id, UserEntity user);
+    boolean updateMap(Long id, UserEntity user);
 
     boolean deleteMap(Long id);
 
-    Map<Long, UserEntity> readMap();
+    List<UserEntity> readMap();
 
     UserEntity findOneUserMap(Long id);
 }
