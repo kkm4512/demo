@@ -2,7 +2,6 @@ package CRUD_PRACTICE.demo.repository;
 
 
 import CRUD_PRACTICE.demo.entity.UserEntity;
-import io.micrometer.common.lang.NonNullApi;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

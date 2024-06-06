@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class DBUserService implements DBUserServiceInterface{
     private final DBUserRepository dbUserRepository;
 
 
-    //유저 정보 보내주기
+    //유저 정보 Send
     public UserEntity sendUserInfo(Long id){
         return dbUserRepository.findById(id).orElseThrow();
     }
@@ -148,20 +147,18 @@ public class DBUserService implements DBUserServiceInterface{
      * updateArrayFunction
      */
 
-    private boolean updateArrayFunction(UserEntity oldUser,UserEntity newUser){
+    private void updateArrayFunction(UserEntity oldUser, UserEntity newUser){
         oldUser.setName(newUser.getName());
         oldUser.setNickname(newUser.getNickname());
         oldUser.setPassword(newUser.getPassword());
         oldUser.setEmail(newUser.getEmail());
-        return true;
     }
 
-    private boolean updateMapFunction(UserEntity oldUser, UserEntity newUser){
+    private void updateMapFunction(UserEntity oldUser, UserEntity newUser){
         oldUser.setName(newUser.getName());
         oldUser.setNickname(newUser.getNickname());
         oldUser.setPassword(newUser.getPassword());
         oldUser.setEmail(newUser.getEmail());
-        return true;
     }
 
 

@@ -1,16 +1,11 @@
 package CRUD_PRACTICE.demo.controller;
 
-import CRUD_PRACTICE.demo.constructor.UserInfo;
 import CRUD_PRACTICE.demo.entity.UserEntity;
 import CRUD_PRACTICE.demo.service.DBUserService;
 import CRUD_PRACTICE.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -56,7 +51,7 @@ public class UserControllerMapping {
         return dbUserService.readMap();
     }
 
-    @PostMapping("/updateUserMap")
+    @PutMapping("/updateUserMap")
     public boolean updateUserMap(@RequestBody UserEntity user) {
         return dbUserService.updateMap(user.getId(),user);
     }
@@ -66,7 +61,7 @@ public class UserControllerMapping {
         return dbUserService.deleteMap(user.getId());
     }
 
-    @GetMapping("/findSomeUsersMap")
+    @GetMapping("/findSomeUsersMap/{id}")
     public UserEntity findSomeUsersMap(@PathVariable("id") Long id) {
         return dbUserService.findOneUserMap(id);
     }
