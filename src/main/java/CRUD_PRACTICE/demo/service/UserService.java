@@ -18,13 +18,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserController userController;
-    private final DBUserRepository dbUserRepository;
 
     @Autowired
-    public UserService(UserController userController, UserRepository userRepository, DBUserRepository dbUserRepository) {
+    public UserService(UserController userController, UserRepository userRepository) {
         this.userController = userController;
         this.userRepository = userRepository;
-        this.dbUserRepository = dbUserRepository;
     }
 
     public static class NoUsersFoundException extends RuntimeException {

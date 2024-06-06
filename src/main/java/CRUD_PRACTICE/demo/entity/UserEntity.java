@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Setter
 @Getter
@@ -24,6 +26,29 @@ public class UserEntity {
 
     @Column
     private String nickname;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserEntity that)) return false;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(nickname, that.nickname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, password, nickname);
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                '}';
+    }
 
     public void updateUserEntity(UserEntity user){
         this.name = user.getName();

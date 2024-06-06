@@ -5,6 +5,8 @@ import CRUD_PRACTICE.demo.service.DBUserService;
 import CRUD_PRACTICE.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,10 +24,13 @@ public class UserControllerMapping {
         return dbUserService.create(user);
     }
 
+
     //전체유저조회 Array
     @GetMapping("getAllUsersArray")
     public List<UserEntity> getAllUsersArray(){
-        return dbUserService.readList();
+        List<UserEntity> userEntities = dbUserService.readList();
+        System.out.println(Arrays.toString(userEntities.toArray()) );
+        return userEntities;
     }
 
     //유저 업데이트 Array
